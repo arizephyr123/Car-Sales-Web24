@@ -1,5 +1,5 @@
 import React from "react";
-import { ADD_FEATURE } from "../actions/actions";
+import { ADD_FEATURE, REMOVE_FEATURE } from "../actions/actions";
 
 export const initialState = {
   additionalPrice: 0,
@@ -21,18 +21,40 @@ export const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
     case ADD_FEATURE:
-      //console.log('reducers ADD_FEATURE', action.payload);
-    //   const NF = state.additionalFeatures.find(item => item.id === action.payload.id)
+      //   const NF = state.additionalFeatures.filter(item => item.id !== action.payload.id)
+      //console.log('reducers ADD_FEATURE', action.payload, NF);
       return {
         ...state,
-         car: { ...state.car, features: [...state.car.features, action.payload] },
-         additionalPrice: state.additionalPrice += action.payload.price 
+        car: {
+          ...state.car,
+          features: [...state.car.features, action.payload]
+        },
+        additionalPrice: (state.additionalPrice += action.payload.price),
+        additionalFeatures: state.additionalFeatures.filter(
+          item => item.id !== action.payload.id
+        )
       };
-    //   case REMOVE_FEATURE:
-    //       return{
-    //           ...state,
+    case REMOVE_FEATURE:
+      console.log(
+        "reducers REMOVE_FEATURE",
+        action.payload,
+        state.additionalPrice,
+        action.payload.price
+      );
 
-    //       }
+      return {
+        ...state,
+        additionalPrice: (state.additionalPrice -= action.payload.price),
+        car: {
+          ...state.car,
+          features: state.car.features.filter(item => {
+            console.log(item.id, action.payload.id);
+            return item.id !== action.payload.id;
+          })
+        },
+        additionalFeatures: [...state.additionalFeatures, action.payload]
+
+      };
     default:
       return state;
   }

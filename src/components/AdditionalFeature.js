@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addFeature } from '../actions/actions'
 
 const AdditionalFeature = props => {
-console.log('AdditionalFeature',props.feature);
+//console.log('AdditionalFeature',props.feature);
 
   // const buyItem = () => {
   //   // dipsatch an action here to add an item
